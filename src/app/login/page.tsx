@@ -1,3 +1,5 @@
+'use client'
+
 import { startSpotifyAuth } from "@/app/lib/spotify"
 
 export default function LoginPage() {
