@@ -6,8 +6,11 @@ export default function LoginPage() {
 
     return (
       <div>
-        <h1>Login with Spotify</h1>
-        <button onClick={startSpotifyAuth}>Login</button>
+        <button onClick={startSpotifyAuth}
+        className="bg-[rgb(29,180,82)] hover:bg-[rgb(27,163,74)] rounded-full text-xl font-bold py-2 px-4"
+        >
+          Sign in with Spotify
+        </button>
       </div>
     )
 }
