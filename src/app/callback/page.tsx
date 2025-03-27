@@ -9,9 +9,9 @@ export default function Callback() {
     const codeForTokenExchange = async (): Promise<void> => {
 
       
-      const urlParams = new URLSearchParams(window.location.search);
-      const code = urlParams.get('code');      
-      const codeVerifier = sessionStorage.getItem('spotify_code_verifier');
+      const urlParams: URLSearchParams = new URLSearchParams(window.location.search);
+      const code: string | null = urlParams.get('code');      
+      const codeVerifier: string | null = sessionStorage.getItem('spotify_code_verifier');
 
       console.log('code', code);
       console.log('codeVerifier', codeVerifier);
@@ -22,7 +22,7 @@ export default function Callback() {
       }
 
       try {
-        const response = await fetch('api/spotify/auth', {
+        const response: Response = await fetch('api/spotify/auth', {
           method: 'POST',
           headers: {
             'Content-Type': 'appilication/json'
@@ -34,7 +34,14 @@ export default function Callback() {
           throw new Error('Token exchange failed');
         }
         
-        const data = await response.json();
+        const data: {
+          access_token: string;
+          refresh_token: string;
+          expires_in: number;
+          scope: string;
+          token_type: string;
+        } = await response.json();
+        
         console.log('Access token:', data.access_token);  
 
       } catch (error) {
