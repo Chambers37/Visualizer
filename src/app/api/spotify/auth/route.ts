@@ -14,14 +14,14 @@ type TokenResponse = {
 }
 
 
-export async function POST(req: NextRequest): Promise<void> {
+export async function POST(req: NextRequest): Promise<NextResponse> {
 
   try {
     const { code, codeVerifier }: TokenRequestBody = await req.json();
-    const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID!;
-    const redirectUri = process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URL!;
+    const clientId: string = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID!;
+    const redirectUri: string = process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URL!;
 
-    const body = new URLSearchParams({
+    const body: URLSearchParams = new URLSearchParams({
       client_id: clientId,
       grant_type: 'authorization_code',
       code,
@@ -29,7 +29,7 @@ export async function POST(req: NextRequest): Promise<void> {
       code_verifier: codeVerifier,
     });
 
-    const spotifyResponse = await fetch('https://accounts.spotify.com/api/token', {
+    const spotifyResponse: Response = await fetch('https://accounts.spotify.com/api/token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -38,7 +38,7 @@ export async function POST(req: NextRequest): Promise<void> {
     });
 
     if (!spotifyResponse.ok) {
-      const errorText = await spotifyResponse.text();
+      const errorText: string = await spotifyResponse.text();
       return NextResponse.json(
         {error: 'Token exchange failed', details: errorText },
         { status: 400 },
@@ -47,7 +47,7 @@ export async function POST(req: NextRequest): Promise<void> {
 
     const tokenData: TokenResponse = await spotifyResponse.json();
     return NextResponse.json(tokenData);
-  } catch (error) {
+  } catch (error: unknown) {
       console.error('Token exchange error:', error);
       return NextResponse.json({ error: 'Unexpected error during token exchange' }, { status: 500 });
   }
