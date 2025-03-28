@@ -22,10 +22,10 @@ export default function Callback() {
       }
 
       try {
-        const response: Response = await fetch('api/spotify/auth', {
+        const response: Response = await fetch('/api/spotify/auth', {
           method: 'POST',
           headers: {
-            'Content-Type': 'appilication/json'
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify({code, codeVerifier}),
         }) 
