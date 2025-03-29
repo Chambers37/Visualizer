@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from "react";
+import { getProfile } from "../api/spotify/profile/route";
 
 export default function Callback() {
 
@@ -58,6 +59,7 @@ export default function Callback() {
     };
 
     codeForTokenExchange();
+    getProfile();
 
   },[])
 
