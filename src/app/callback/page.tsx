@@ -59,7 +59,7 @@ export default function Callback() {
     };
 
     codeForTokenExchange();
-    getProfile();
+    getProfile(sessionStorage.getItem('access_token'));
 
   },[])
 
