@@ -50,6 +50,8 @@ export default function Callback() {
           token_type: data.token_type,
         });
 
+        sessionStorage.setItem('access_token', data.access_token)
+
       } catch (error) {
         console.log('OAuth callback erroror', error)
       }
