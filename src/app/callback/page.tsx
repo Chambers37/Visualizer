@@ -42,7 +42,13 @@ export default function Callback() {
           token_type: string;
         } = await response.json();
         
-        console.log('Access token:', data.access_token);  
+        console.log('Spotify Token Response:', {
+          access_token: data.access_token,
+          refresh_token: data.refresh_token,
+          expires_in: data.expires_in,
+          scope: data.scope,
+          token_type: data.token_type,
+        });
 
       } catch (error) {
         console.log('OAuth callback erroror', error)
