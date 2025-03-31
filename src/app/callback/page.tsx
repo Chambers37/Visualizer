@@ -1,9 +1,19 @@
 'use client'
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getProfile } from "../api/spotify/profile/route";
 
+type TokenResponse = {
+  access_token: string;
+  token_type: string;
+  scope: string;
+  expires_in: number;
+  refresh_token: string;
+}
+
 export default function Callback() {
+
+  const [responseData, setResponseData] = useState<TokenResponse>();
 
   useEffect(() => {
 
@@ -35,23 +45,19 @@ export default function Callback() {
           throw new Error('Token exchange failed');
         }
         
-        const data: {
-          access_token: string;
-          refresh_token: string;
-          expires_in: number;
-          scope: string;
-          token_type: string;
-        } = await response.json();
+        setResponseData( await response.json());
         
-        console.log('Spotify Token Response:', {
-          access_token: data.access_token,
-          refresh_token: data.refresh_token,
-          expires_in: data.expires_in,
-          scope: data.scope,
-          token_type: data.token_type,
-        });
-
-        sessionStorage.setItem('access_token', data.access_token)
+        if (responseData) {
+          console.log('Spotify Token Response:', {
+            access_token: responseData.access_token,
+            refresh_token: responseData.refresh_token,
+            expires_in: responseData.expires_in,
+            scope: responseData.scope,
+            token_type: responseData.token_type,
+          });
+  
+          sessionStorage.setItem('access_token', responseData.access_token)
+        }
 
       } catch (error) {
         console.log('OAuth callback erroror', error)
@@ -65,7 +71,26 @@ export default function Callback() {
 
 return (
   <div>
-    Callback
+    <div className="flex justify-center h-[100px]r">
+      <h1 className="text-4xl">
+        Callback
+      </h1>
+    </div>
+    <div className="my-5">
+      {responseData ? <div>Access Token: {responseData.access_token}</div> : null}
+    </div>
+    <div className="mb-5">
+      {responseData ? <div>Token Type: {responseData.token_type}</div> : null}
+    </div>
+    <div className="mb-5">
+      {responseData ? <div>Expires In: {responseData.expires_in}</div> : null}
+    </div>
+    <div className="mb-5">
+      {responseData ? <div>Scope: {responseData.scope}</div> : null}
+    </div>
+    <div className="mb-5">
+      {responseData ? <div>Refresh Token: {responseData.refresh_token}</div> : null}
+    </div>
   </div>
 )
 
