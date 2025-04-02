@@ -25,4 +25,4 @@ export const startSpotifyAuth = async (): Promise<void> => {
 
   authUrl.search = new URLSearchParams(params).toString();
   window.location.href = authUrl.toString();
-}
+}3
